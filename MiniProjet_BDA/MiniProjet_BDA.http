@@ -1,0 +1,6 @@
+@MiniProjet_BDA_HostAddress = http://localhost:5222
+
+GET {{MiniProjet_BDA_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
