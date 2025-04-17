@@ -2,6 +2,7 @@
 {
     public class Professor : User
     {
+        public int? Id { get; set; }
         public Professor()
         {
             Role = "professor";

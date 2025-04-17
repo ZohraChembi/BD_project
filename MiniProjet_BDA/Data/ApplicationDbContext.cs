@@ -7,6 +7,10 @@ namespace MiniProjet_BDA.Data
 
     public class ApplicationDbContext : DbContext
     {
+        internal object Jury;
+        internal object Evaluations;
+        internal object Jurys;
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
@@ -127,21 +131,6 @@ namespace MiniProjet_BDA.Data
                 .HasIndex(e => new { e.JuryId, e.DefenseId })
                 .IsUnique();
 
-
-
-
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

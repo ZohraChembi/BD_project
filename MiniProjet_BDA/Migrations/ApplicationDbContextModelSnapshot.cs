@@ -24,22 +24,22 @@ namespace MiniProjet_BDA.Migrations
 
             modelBuilder.Entity("MiniProjet_BDA.Models.Defense", b =>
                 {
-                    b.Property<int>("DefenseId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DefenseId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DefenseDate")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ProjectId")
+                    b.Property<int?>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoomId")
+                    b.Property<int?>("RoomId")
                         .HasColumnType("int");
 
-                    b.HasKey("DefenseId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
 
@@ -56,17 +56,16 @@ namespace MiniProjet_BDA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DefenseEvaluationId"));
 
-                    b.Property<int>("DefenseId")
+                    b.Property<int?>("DefenseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("JuryId")
+                    b.Property<int?>("JuryId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Note")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Remark")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DefenseEvaluationId");
@@ -74,7 +73,8 @@ namespace MiniProjet_BDA.Migrations
                     b.HasIndex("DefenseId");
 
                     b.HasIndex("JuryId", "DefenseId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[JuryId] IS NOT NULL AND [DefenseId] IS NOT NULL");
 
                     b.ToTable("DefenseEvaluations");
                 });
@@ -88,17 +88,15 @@ namespace MiniProjet_BDA.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectId"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SupervisorId")
+                    b.Property<int?>("SupervisorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeamId")
+                    b.Property<int?>("TeamId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ProjectId");
@@ -134,17 +132,16 @@ namespace MiniProjet_BDA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentEvaluationId"));
 
-                    b.Property<int>("JuryId")
+                    b.Property<int?>("JuryId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Note")
+                    b.Property<decimal?>("Note")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Remark")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<int?>("StudentId1")
@@ -157,7 +154,8 @@ namespace MiniProjet_BDA.Migrations
                     b.HasIndex("StudentId1");
 
                     b.HasIndex("JuryId", "StudentId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[JuryId] IS NOT NULL AND [StudentId] IS NOT NULL");
 
                     b.ToTable("StudentEvaluations");
                 });
@@ -170,7 +168,7 @@ namespace MiniProjet_BDA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeamId"));
 
-                    b.Property<int>("Student1Id")
+                    b.Property<int?>("Student1Id")
                         .HasColumnType("int");
 
                     b.Property<int?>("Student2Id")
@@ -199,15 +197,12 @@ namespace MiniProjet_BDA.Migrations
                         .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
@@ -241,7 +236,7 @@ namespace MiniProjet_BDA.Migrations
                 {
                     b.HasBaseType("MiniProjet_BDA.Models.Professor");
 
-                    b.Property<int>("DefenseId")
+                    b.Property<int?>("DefenseId")
                         .HasColumnType("int");
 
                     b.HasIndex("DefenseId");
@@ -258,14 +253,12 @@ namespace MiniProjet_BDA.Migrations
                     b.HasOne("MiniProjet_BDA.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MiniProjet_BDA.Models.Room", "Room")
                         .WithMany()
                         .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Project");
 
@@ -277,14 +270,12 @@ namespace MiniProjet_BDA.Migrations
                     b.HasOne("MiniProjet_BDA.Models.Defense", "Defense")
                         .WithMany()
                         .HasForeignKey("DefenseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MiniProjet_BDA.Models.Jury", "Jury")
                         .WithMany()
                         .HasForeignKey("JuryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Defense");
 
@@ -296,14 +287,12 @@ namespace MiniProjet_BDA.Migrations
                     b.HasOne("MiniProjet_BDA.Models.Professor", "Supervisor")
                         .WithMany()
                         .HasForeignKey("SupervisorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MiniProjet_BDA.Models.Team", "Team")
                         .WithMany()
                         .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Supervisor");
 
@@ -315,14 +304,12 @@ namespace MiniProjet_BDA.Migrations
                     b.HasOne("MiniProjet_BDA.Models.Jury", "Jury")
                         .WithMany()
                         .HasForeignKey("JuryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MiniProjet_BDA.Models.Student", "Student")
                         .WithMany()
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MiniProjet_BDA.Models.Student", null)
                         .WithMany("Evaluations")
@@ -338,8 +325,7 @@ namespace MiniProjet_BDA.Migrations
                     b.HasOne("MiniProjet_BDA.Models.Student", "Student1")
                         .WithMany()
                         .HasForeignKey("Student1Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("MiniProjet_BDA.Models.Student", "Student2")
                         .WithMany()
@@ -356,8 +342,7 @@ namespace MiniProjet_BDA.Migrations
                     b.HasOne("MiniProjet_BDA.Models.Defense", "Defense")
                         .WithMany()
                         .HasForeignKey("DefenseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Defense");
                 });

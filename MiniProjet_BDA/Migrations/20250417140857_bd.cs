@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MiniProjet_BDA.Migrations
 {
     /// <inheritdoc />
-    public partial class First : Migration
+    public partial class bd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,10 +30,10 @@ namespace MiniProjet_BDA.Migrations
                 {
                     DefenseEvaluationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DefenseId = table.Column<int>(type: "int", nullable: false),
-                    JuryId = table.Column<int>(type: "int", nullable: false),
+                    DefenseId = table.Column<int>(type: "int", nullable: true),
+                    JuryId = table.Column<int>(type: "int", nullable: true),
                     Note = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,15 +44,15 @@ namespace MiniProjet_BDA.Migrations
                 name: "Defenses",
                 columns: table => new
                 {
-                    DefenseId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProjectId = table.Column<int>(type: "int", nullable: false),
-                    RoomId = table.Column<int>(type: "int", nullable: false),
-                    DefenseDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ProjectId = table.Column<int>(type: "int", nullable: true),
+                    RoomId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Defenses", x => x.DefenseId);
+                    table.PrimaryKey("PK_Defenses", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Defenses_Rooms_RoomId",
                         column: x => x.RoomId,
@@ -67,9 +67,9 @@ namespace MiniProjet_BDA.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     DefenseId = table.Column<int>(type: "int", nullable: true)
@@ -81,7 +81,7 @@ namespace MiniProjet_BDA.Migrations
                         name: "FK_Users_Defenses_DefenseId",
                         column: x => x.DefenseId,
                         principalTable: "Defenses",
-                        principalColumn: "DefenseId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -91,11 +91,11 @@ namespace MiniProjet_BDA.Migrations
                 {
                     StudentEvaluationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    JuryId = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: true),
+                    JuryId = table.Column<int>(type: "int", nullable: true),
                     StudentId1 = table.Column<int>(type: "int", nullable: true),
-                    Note = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Note = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -125,7 +125,7 @@ namespace MiniProjet_BDA.Migrations
                 {
                     TeamId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Student1Id = table.Column<int>(type: "int", nullable: false),
+                    Student1Id = table.Column<int>(type: "int", nullable: true),
                     Student2Id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -151,10 +151,10 @@ namespace MiniProjet_BDA.Migrations
                 {
                     ProjectId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SupervisorId = table.Column<int>(type: "int", nullable: false),
-                    TeamId = table.Column<int>(type: "int", nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SupervisorId = table.Column<int>(type: "int", nullable: true),
+                    TeamId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -182,7 +182,8 @@ namespace MiniProjet_BDA.Migrations
                 name: "IX_DefenseEvaluations_JuryId_DefenseId",
                 table: "DefenseEvaluations",
                 columns: new[] { "JuryId", "DefenseId" },
-                unique: true);
+                unique: true,
+                filter: "[JuryId] IS NOT NULL AND [DefenseId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Defenses_ProjectId",
@@ -208,7 +209,8 @@ namespace MiniProjet_BDA.Migrations
                 name: "IX_StudentEvaluations_JuryId_StudentId",
                 table: "StudentEvaluations",
                 columns: new[] { "JuryId", "StudentId" },
-                unique: true);
+                unique: true,
+                filter: "[JuryId] IS NOT NULL AND [StudentId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudentEvaluations_StudentId",
@@ -247,7 +249,7 @@ namespace MiniProjet_BDA.Migrations
                 table: "DefenseEvaluations",
                 column: "DefenseId",
                 principalTable: "Defenses",
-                principalColumn: "DefenseId",
+                principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiniProjet_BDA")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8396e21ebc09c7877379fa1da0f0cfba48b9b927")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+029a04bdd9cbbb14563ec57d77426cff1b5e2df8")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiniProjet_BDA")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiniProjet_BDA")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

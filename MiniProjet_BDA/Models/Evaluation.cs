@@ -2,9 +2,9 @@
 {
     public abstract class Evaluation
     {
-        public Jury Jury { get; set; }
-        public decimal Note { get; set; }
-        public string Remark { get; set; }
+        public Jury? Jury { get; set; }
+        public decimal? Note { get; set; }
+        public string? Remark { get; set; }
 
         public bool IsValidNote()
         {

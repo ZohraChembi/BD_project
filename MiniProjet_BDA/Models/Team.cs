@@ -3,9 +3,9 @@
     public class Team
     {
         public int TeamId { get; set; }
-        public Student Student1 { get; set; }
-        public Student Student2 { get; set; }
-        public int Student1Id { get; set; } // Ajoutez cette propriété
+        public Student? Student1 { get; set; }
+        public Student?  Student2 { get; set; }
+        public int? Student1Id { get; set; } // Ajoutez cette propriété
         public int? Student2Id { get; set; } // Id optionnel
 
         public bool IsValidTeam()
